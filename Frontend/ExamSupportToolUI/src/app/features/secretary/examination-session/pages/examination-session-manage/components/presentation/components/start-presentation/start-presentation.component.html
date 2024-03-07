@@ -1,0 +1,84 @@
+<ng-container *ngIf="!examinationSessionHasSchedule; else hasSchedule">
+  <div class="card-container mb-0 text-center mt-7">
+    <div>
+      <p>
+        You need to create a schedule in order to start presentation.
+      </p>
+      <div class="center-buttons">
+        <button pButton [disabled]="!examinationSessionHasSchedule" type="button" (click)="onStartPresentationClick()"
+          label="Start Presentation" class="p-button-success mr-4"></button>
+        <button pButton type="button" (click)="onManagePresentationClick()" label="Manage Schedule"
+          class="p-button-help"></button>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #hasSchedule>
+  <ng-container *ngIf="examinationSession$ | async as examinationSession">
+    <div *ngIf="examinationSession.status == 0 || examinationSession.status == 1; else presenting"
+      class="card ml-6 mr-6">
+      <div class="card-container mb-0 text-center mt-7">
+        <p>
+          The presentation for this session is not yet started.
+        </p>
+        <div class="center-buttons">
+          <button pButton type="button" (click)="onStartPresentationClick()" label="Start Presentation"
+            class="p-button-success mr-4"></button>
+          <button pButton type="button" (click)="onManagePresentationClick()" label="Manage Schedule"
+            class="p-button-help"></button>
+        </div>
+      </div>
+    </div>
+    <ng-template #presenting>
+      <div *ngIf="examinationSession.status == 2; else closed" class="card ml-6 mr-6">
+        <div class="card">
+          <div class="flex justify-content-between flex-wrap">
+            <h1>{{examinationSession.studentPresentation?.student?.name}}</h1>
+            <app-countdown-timer [startDate]="examinationSession!.studentPresentation!.startingTime!"
+              [duration]="examinationSession?.presentationSchedule?.studentPresentationDuration!">
+            </app-countdown-timer>
+          </div>
+          <h4>Years Average Grade: {{examinationSession.studentPresentation?.student?.yearsAverageGrade}}</h4>
+          <h4>Graduation Year: 2003 {{examinationSession.studentPresentation?.student?.graduationYear}}</h4>
+          <p-checkbox [(ngModel)]="isAbsent" [binary]="true"
+            (onChange)="onAbsentCheckboxChange(examinationSession.studentPresentation?.id!)">
+          </p-checkbox>
+          <label for="abs">
+            <h4>Absent</h4>
+          </label>
+          <div>
+            <div *ngIf="!examinationSession.studentPresentation?.examinationTicket" class="drawn-ticket">
+              No examination ticket assigned yet
+            </div>
+            <div *ngIf="examinationSession.studentPresentation?.examinationTicket">
+              <p>Ticket No {{examinationSession.studentPresentation?.examinationTicket?.ticketNo}}</p>
+              <p>Q1. {{examinationSession.studentPresentation?.examinationTicket?.question1}}</p>
+              <p>Q2. {{examinationSession.studentPresentation?.examinationTicket?.question2}}</p>
+              <p>Q3. {{examinationSession.studentPresentation?.examinationTicket?.question3}}</p>
+            </div>
+          </div>
+          <h3>Project</h3>
+          <p class="details">{{examinationSession.studentPresentation?.student?.diplomaProjectName}}</p>
+          <h3>Coordinator</h3>
+          <p class="details">{{examinationSession.studentPresentation?.student?.coordinatorName}}</p>
+          <div class="flex flex-row-reverse align-items-center">
+            <p-button styleClass="ml-3" icon="pi pi-arrow-right" (onClick)="onNextStudentClick()"></p-button>
+            <ng-container *ngIf="remainingStudents$ | async as remainingStudents">
+              <p-dropdown styleClass="ml-3" [options]="remainingStudents" [(ngModel)]="selectedNextStudent"
+              optionLabel="name" optionValue="id"></p-dropdown>
+            </ng-container>
+            <h2>Next Student</h2>
+          </div>
+        </div>
+      </div>
+      <ng-template #closed>
+        <div class="card-container mb-0 text-center mt-7">
+          <p>
+            The presentation for this session has ended.
+          </p>
+        </div>
+      </ng-template>
+    </ng-template>
+  </ng-container>
+</ng-template>

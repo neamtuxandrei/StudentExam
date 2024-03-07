@@ -1,0 +1,98 @@
+<p-dialog header="Add committee member"[(visible)]="isAddDialogVisible" [modal]="true" [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
+    <div class="col-md-5">
+        <form [formGroup]="committeeForm">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input pInputText [formControl]="committeeForm.controls['name']" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input pInputText [formControl]="committeeForm.controls['email']" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Is head of committee</label>
+                    <p-dropdown formControlName="isHeadOfCommittee" [options]="committeeHeadDropdown" optionLabel="name" optionValue="value"></p-dropdown>
+                </div>
+                <div class="p-dialog-footer mt-2">
+                    <button pButton type="button" label="Cancel" class="p-button-danger" (click)="onCancelAddButtonClick()"></button>
+                    <button pButton type="button" label="Submit" class="p-button-success" (click)="onSubmitButtonClick()"></button>
+                </div>
+        </form>
+    </div>
+</p-dialog>
+
+<p-dialog [(visible)] = "isRemoveDialogVisible" [modal] = "true">
+    <ng-template  pTemplate = "header">
+        <h3 class="dialog-header">Delete Committee Member</h3>
+     </ng-template>
+    <ng-template pTemplate = "display">
+      <p>Are you sure you want to remove this committee member</p>
+    </ng-template>
+      <ng-template pTemplate="footer" >
+        <button pButton pRipple label="Yes" class="p-button-success" (click) = "onSubmitRemoveMemberButtonClick()"></button>
+        <button pButton pRipple label="No" class="p-button-danger" (click) = "closeRemoveDialog()"></button>
+      </ng-template>
+</p-dialog>
+
+<p-dialog header="Edit committee member"[(visible)]="isEditDialogVisible" [modal]="true" [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
+    <div class="col-md-5">
+        <form [formGroup]="committeeForm">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input pInputText [formControl]="committeeForm.controls['name']" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input pInputText [formControl]="committeeForm.controls['email']" class="form-control" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Is head of committee</label>
+                    <p-dropdown formControlName="isHeadOfCommittee" [options]="committeeHeadDropdown" optionLabel="name" optionValue="value"></p-dropdown>
+                </div>
+                <div class="p-dialog-footer mt-2">
+                    <button pButton type="button" label="Cancel" class="p-button-danger" (click)="onCancelEditButtonClick()"></button>
+                    <button pButton type="button" label="Update" class="p-button-success" (click)="onUpdateMemberButtonClick()"></button>
+                </div>
+        </form>
+    </div>
+</p-dialog>
+
+<div class="card">
+    <div class="flex justify-content-end flex-wrap gap-3 mb-4">
+        <button pButton label="Add member" class="p-button-success" icon="pi pi-plus" iconPos="left"
+            (click)="onAddMemberButtonClick()"></button>
+    </div>
+    <ng-container *ngIf="committeeList; else noData">
+        <p-table [value]="committeeList" styleClass="p-datatable-sm">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Committee Role</th>
+                    <th>Actions</th>
+                </tr>
+                <tr>
+                    <td colspan="4" *ngIf="committeeList.length === 0">There are currently no committee member for this examination session.</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-committee>
+                <tr class="clickable-row" (click)="onEditMemberButtonClick(committee)">
+                    <td>{{ committee.name }}</td>
+                    <td>{{ committee.email }}</td>
+                    <td *ngIf="!isHeadOfCommittee(committee)"><p-tag value="Member"></p-tag></td>
+                    <td *ngIf="isHeadOfCommittee(committee)"><p-tag severity="danger" value="Head of Committee"></p-tag></td>
+                    <td>
+                        <p-button type="button" pTooltip="Remove" icon="pi pi-times" class="p-button-danger"
+                            tooltipPosition="bottom" styleClass="p-button-rounded p-button-danger p-button-text"
+                            (click)="onRemoveMemberButtonClick(committee.id,$event)"></p-button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </ng-container>
+
+    <!--ELSE committeeList$ error display a custom error text -->
+    <ng-template #noData>
+        <p>Error fetching data</p>
+    </ng-template>
+</div>

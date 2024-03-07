@@ -1,0 +1,138 @@
+﻿@model ExamSupportToolAPI.DataObjects.StudentGradesReport
+@{
+    Layout = null;
+    ViewData["Title"] = "Student Grades Report";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 14px;
+            width: 100%;
+        }
+
+        .header-band {
+            background-color: #DDDDDD;
+            font-size: 18px;
+            font-weight: bold;
+            width: 90%;
+            height: 50px;
+            line-height: 50px;
+            margin: auto;
+            margin-top: 50px;
+            padding: 10px;
+        }
+
+        .data-details {
+            background-color: white;
+            color: black;
+            text-align: left;
+            width: 90%;
+            margin: auto;
+        }
+
+        .table-header {
+            background-color: #DDDDDD;
+            color: black;
+            height: 50px;
+        }
+        .align-right{
+            text-align: right;
+        }
+
+        .align-center {
+            text-align: center;
+        }
+
+        .table {
+            width: 90%;
+            margin: auto;
+        }
+
+        .tbody tr:nth-child(odd) {
+            background-color: #EFEFEF;
+        }
+
+        .tbody tr {
+            height: 30px;
+        }
+    </style>
+</head>
+<body>
+   
+    <div class="header-band align-center">
+        <b></b> @Model.ReportName <br>        
+    </div>
+
+    <br />
+    <table class="table">
+        <thead>
+            <tr class="table-header">
+                <th>No</th>
+                <th>Name</th>
+                <th>Theory</th>
+                <th>Project</th>               
+            </tr>
+        </thead>
+        <tbody class="tbody">
+            @{
+                int counter = 1;            
+                foreach (var reportEntry in Model.ReportEntries)
+                {      
+                     @if (counter % 38 == 0)
+                     {
+                        @:</tbody>
+                                @:</table>
+                            <br />
+                            <br />
+                            <br />
+                            <br />
+                            <br />
+                            <br />  <br />
+                            <br />
+                            <br />
+                            <br />
+                            <br />
+                            <br /> <br />
+                            <br />                           
+                            
+                            @:<table class="table">
+                                <thead>
+                                    <tr class="table-header">
+                                        <th>No</th>
+                                        <th>Name</th>
+                                        <th>Theory</th>
+                                        <th>Project</th>
+                                    </tr>
+                                </thead>
+                                @:<tbody class="tbody">                
+
+                     }
+                    @if (!reportEntry.Absent)
+                    {
+                        <tr>
+                            <td>@counter </td>
+                            <td>@reportEntry.Name</td>
+                            <td class="align-right" >@reportEntry.TheoryGrade</td>
+                            <td class="align-right">@reportEntry.ProjectGrade</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td>@counter </td>
+                            <td>@reportEntry.Name</td>
+                            <td class="align-center">Absent</td>
+                            <td class="align-center">Absent</td>
+                        </tr>                        
+                    }
+                    counter = counter + 1;                        
+                }
+             }
+        </tbody>
+    </table>
+
+</body>
+</html>

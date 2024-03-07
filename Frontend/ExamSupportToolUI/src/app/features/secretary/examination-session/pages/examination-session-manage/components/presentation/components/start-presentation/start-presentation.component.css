@@ -1,0 +1,58 @@
+.card-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.center-buttons {
+  margin-top: 20px;
+}
+
+.center-buttons-closing{
+  margin-top: 30px;
+}
+
+.drawn-ticket {
+  text-align: center;
+  padding: 50px;
+}
+
+.next-student {
+  position: absolute;
+  right: 100px;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+
+.card-container-second {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+h4 {
+  margin-block-start: 0.7em;
+  margin-block-end: 0.7em;
+}
+
+h3 {
+  margin-block-start: 0.6em;
+  margin-block-end: 0.4em;
+}
+
+h1 {
+  margin-block-start: 0.67em;
+  margin-block-end: 0.2em;
+}
+
+.details {
+  display: block;
+  font-size: 1.1em;
+  margin-block-start: 0.7em;
+  margin-block-end: 0.4em;
+}
+
+

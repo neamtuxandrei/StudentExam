@@ -1,0 +1,14 @@
+:host ::ng-deep .p-tabmenu {
+    text-align: center;
+}
+
+:host ::ng-deep .p-tabmenu-nav {
+    display: flex;
+    justify-content: center;
+}
+
+:host ::ng-deep .p-tabmenuitem {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

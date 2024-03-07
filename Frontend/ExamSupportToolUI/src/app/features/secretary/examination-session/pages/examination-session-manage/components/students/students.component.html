@@ -1,0 +1,197 @@
+<div class="progress-spinner" *ngIf="isLoadingStudentsSpinnerVisible">
+  <p-progressSpinner></p-progressSpinner>
+</div>
+
+<!--#region dialogs  -->
+<p-dialog header="Import students from .xlsx file" [(visible)]="isImportStudentDialogVisible" [modal]="true"
+  [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
+  <p-fileUpload name="myfile[]" url="https://www.primefaces.org/cdn/api/upload.php" (onUpload)="onUpload($event)"
+    [multiple]="false" accept=".xlsx,.csv">
+    <ng-template let-file pTemplate="file">
+      <div><p-tag icon="pi pi-file-excel" [value]="file.name"></p-tag></div>
+    </ng-template>
+    <ng-template pTemplate="content" let-files>
+      <p *ngIf="files.length === 0">Drag & drop file here.</p>
+    </ng-template>
+  </p-fileUpload>
+</p-dialog>
+
+<p-dialog header="Add student" [(visible)]="isAddDialogVisible" [modal]="true" [style]="{ width: '50vw' }"
+  [draggable]="false" [resizable]="false">
+  <form [formGroup]="studentForm">
+    <div class="card">
+      <div class="col-12">
+        <label for="Name">Name</label>
+        <input pInputText [formControl]="studentForm.controls['name']" id="Name" placeholder="Name" type="text"
+          class="form-control text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+          aria-describedby="username-help" maxlength="50">
+      </div>
+      <div class="col-12">
+        <label for="Email">Email</label>
+        <input pInputText [formControl]="studentForm.controls['email']" id="Email" placeholder="Email" type="text"
+          class="form-control text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+          aria-describedby="username-help" maxlength="50">
+      </div>
+    </div>
+    <div class="formgroup-inline p-grid p-justify-between">
+      <div class="col-6">
+        <label for="anonymizationCode" style="display: block; margin-bottom: 5px;">Anonymization Code</label>
+        <input pInputText [formControl]="studentForm.controls['anonymizationCode']" id="anonymizationCode"
+          placeholder="Code" type="text"
+          class="form-control text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+          aria-describedby="username-help" maxlength="50">
+      </div>
+      <div class="col-6">
+        <label for="yearsAverageGrade" style="display: block; margin-bottom: 5px;">Years Grade Average</label>
+        <input pInputText [formControl]="studentForm.controls['yearsAverageGrade']" id="yearsAverageGrade"
+          placeholder="Grade" type="text"
+          class="form-control text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+          aria-describedby="username-help" maxlength="50">
+      </div>
+    </div>
+    <div class="formgroup-inline p-grid p-justify-between">
+      <div class="col-6">
+        <label for="diplomaProjectName" style="display: block; margin-bottom: 5px;">Diploma Project Name</label>
+        <input pInputText [formControl]="studentForm.controls['diplomaProjectName']" id="diplomaProjectName"
+          placeholder="Project Name" type="text"
+          class="form-control text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+          aria-describedby="username-help" maxlength="50">
+      </div>
+      <div class="col-6">
+        <label for="coordinatorName" style="display: block; margin-bottom: 5px;">Coordinator Name</label>
+        <input pInputText [formControl]="studentForm.controls['coordinatorName']" id="coordinatorName"
+          placeholder="Coordinator Name" type="text"
+          class="form-control text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+          aria-describedby="username-help" maxlength="50">
+      </div>
+    </div>
+  </form>
+
+  <div class="p-dialog-footer mt-3">
+    <button pButton type="button" label="Cancel" (click)="onCancelButtonClick()" class="p-button-danger"></button>
+    <button pButton type="button" label="Add" (click)="onAddButtonClick()" class="p-button-success"
+      [disabled]="!studentForm.valid"></button>
+  </div>
+</p-dialog>
+
+<p-dialog header="Edit student" [(visible)]="isEditDialogVisible" [modal]="true" [style]="{ width: '50vw' }"
+  [draggable]="false" [resizable]="false">
+  <form [formGroup]="studentForm">
+    <div class="card">
+      <div class="col-12">
+        <label for="Name">Name</label>
+        <input pInputText formControlName="name" id="Name" placeholder="Name" type="text"
+          class="form-control text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+          aria-describedby="username-help" maxlength="50">
+      </div>
+      <div class="col-12">
+        <label for="Email">Email</label>
+        <input pInputText formControlName="email" id="Email" placeholder="Email" type="text"
+          class="form-control text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+          aria-describedby="username-help" maxlength="50">
+      </div>
+    </div>
+    <div class="formgroup-inline p-grid p-justify-between">
+      <div class="col-6">
+        <label for="anonymizationCode" style="display: block; margin-bottom: 5px;">Anonymization Code</label>
+        <input pInputText formControlName="anonymizationCode" id="anonymizationCode" placeholder="Code" type="text"
+          class="form-control text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+          aria-describedby="username-help" maxlength="50">
+      </div>
+      <div class="col-6">
+        <label for="yearsAverageGrade" style="display: block; margin-bottom: 5px;">Years Grade Average</label>
+        <input pInputText formControlName="yearsAverageGrade" id="yearsAverageGrade" placeholder="Grade" type="text"
+          class="form-control text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+          aria-describedby="username-help" maxlength="50">
+      </div>
+    </div>
+    <div class="formgroup-inline p-grid p-justify-between">
+      <div class="col-6">
+        <label for="diplomaProjectName" style="display: block; margin-bottom: 5px;">Diploma Project Name</label>
+        <input pInputText formControlName="diplomaProjectName" id="diplomaProjectName" placeholder="Project Name"
+          type="text"
+          class="form-control text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+          aria-describedby="username-help" maxlength="50">
+      </div>
+      <div class="col-6">
+        <label for="coordinatorName" style="display: block; margin-bottom: 5px;">Coordinator Name</label>
+        <input pInputText formControlName="coordinatorName" id="coordinatorName" placeholder="Coordinator Name"
+          type="text"
+          class="form-control text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+          aria-describedby="username-help" maxlength="50">
+      </div>
+    </div>
+  </form>
+  <div class="p-dialog-footer mt-3">
+    <button pButton type="button" label="Cancel" (click)="onCancelUpdateStudentButtonClick()"
+      class="p-button-danger"></button>
+    <button pButton type="button" label="Update" (click)="onUpdateStudentButtonClick()" class="p-button-success"
+      [disabled]="!studentForm.valid"></button>
+  </div>
+</p-dialog>
+
+<div class="card flex justify-content-center">
+  <p-confirmDialog #cd [style]="{width: '50vw'}">
+    <ng-template pTemplate="header">
+      <h3>Remove student</h3>
+    </ng-template>
+    <ng-template pTemplate="footer">
+      <button type="button" class="p-button-danger" pButton icon="pi pi-times" label="Cancel"
+        (click)="cd.reject()"></button>
+      <button type="button" class="p-button-success" pButton icon="pi pi-check" label="Remove"
+        (click)="cd.accept()"></button>
+    </ng-template>
+  </p-confirmDialog>
+</div>
+<!--#endregion -->
+
+<!-- #region main -->
+<div class="card">
+  <div class="flex justify-content-end flex-wrap gap-3 mb-4">
+    <button pButton label="Add Student" class="p-button-success" icon="pi pi-plus" iconPos="left"
+      (click)="onAddStudentButtonClick()"></button>
+    <button pButton label="Import" class="p-button-help" icon="pi pi-file-import" iconPos="right"
+      (click)="onImportButtonClick()"></button>
+  </div>
+  <div id="table">
+    <ng-container *ngIf="(studentList$ | async) as studentListAsync">
+      <p-table #dt [value]="studentListAsync">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Name</th>
+            <th>Email address</th>
+            <th>Anonymization code</th>
+            <th>Years Average Grade</th>
+            <th>Name of the Diploma Project</th>
+            <th>Name of the Coordinator</th>
+            <th>Actions</th>
+          </tr>
+          <tr>
+            <td colspan="4" *ngIf="studentListAsync.length === 0">There are currently no students in this examination
+              session.</td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-student>
+          <tr class="clickable-row" (click)="onStudentClick(student)">
+            <td> {{ student.name }} </td>
+            <td> {{ student.email }} </td>
+            <td> {{ student.anonymizationCode }} </td>
+            <td> {{ student.yearsAverageGrade }} </td>
+            <td> {{ student.diplomaProjectName }} </td>
+            <td> {{ student.coordinatorName }} </td>
+            <td class="clickable-row">
+              <div class="flex align-items-center">
+                <p-button (onClick)="onRemoveStudentClick(student.id, $event)" type="button" icon="pi pi-times"
+                  styleClas="p-button-danger" pTooltip="Remove" tooltipPosition="bottom" placeholder="Bottom"
+                  styleClass="p-button-rounded p-button-danger p-button-text"></p-button>
+                <p-button type="button" pTooltip="Generate Examination Sheet" tooltipPosition="bottom" icon="pi pi-file"
+                  styleClass="p-button-rounded p-button-text"></p-button>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </ng-container>
+  </div>
+</div>
+<!-- #endregion -->

@@ -1,0 +1,21 @@
+.clickable-row:hover {
+  background-color: #f0f0f0;
+  cursor: pointer;
+}
+
+.input-group-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  width: calc(45%); 
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}

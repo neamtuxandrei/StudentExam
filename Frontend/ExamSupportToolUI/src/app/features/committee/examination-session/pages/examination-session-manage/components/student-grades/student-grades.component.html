@@ -1,0 +1,35 @@
+<div id="table">
+    <ng-container *ngIf="studentsList">
+      <p-table #dt [value]="studentsList" *ngIf="studentsList!.length > 0">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Name</th>
+            <th>Project Name</th>
+            <th>Coordinator Name</th>
+            <th>Theory</th>
+            <th>Project</th>
+            <th>Average Theory</th>
+            <th>Average Project</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-student>
+          <tr class="clickable-row" >
+            <td> {{ student.name }} </td>
+            <td> {{ student.diplomaProjectName }} </td>
+            <td> {{ student.coordinatorName }} </td>
+            <td> <input class="p-inputtext p-rounded" type="number" min="0" max="10" [(ngModel)]="student.theoryGrade" (input)="onGradeChanged(student)"/> </td>
+            <td> <input class="p-inputtext" type="number" min="0" max="10" [(ngModel)]="student.projectGrade" (input)="onGradeChanged(student)"/> </td>
+            <td> <input id="theoryAverage_{{student.id}}" class="p-inputtext p-rounded" readonly="readonly" disabled type="number" min="0" max="10" [ngModel]="student.theoryAverage" /> </td>
+            <td> <input id="projectAverage_{{student.id}}" class="p-inputtext p-rounded" readonly="readonly" disabled type="number" min="0" max="10" [ngModel]="student.projectAverage" /> </td>
+            <td class="clickable-row">
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </ng-container>
+  </div>
+
+  <div *ngIf="studentsList!.length === 0">
+    <p>There are currently no evaluated students in this examination session.</p>
+  </div>
+

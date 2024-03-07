@@ -1,0 +1,15 @@
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+<!-- * * * * * * * * * * * The content below * * * * * * * * * * * -->
+<!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * -->
+<!-- * * * * * * * * * * and can be replaced. * * * * * * * * * * * -->
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+<!-- * * * * * * * * * Delete the template below * * * * * * * * * * -->
+<!-- * * * * * * * to get started with your project! * * * * * * * * -->
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+
+<input  type="text" [ngModel]="testMessage.Message" [ngModelOptions]="{standalone: true}"/>
+<input type="text" [(ngModel)]="testMessage.Message"/>
+{{testMessage.Message}}
+<button (click)="clickButton()">SendMessageToServer</button>
+<router-outlet></router-outlet>
+   

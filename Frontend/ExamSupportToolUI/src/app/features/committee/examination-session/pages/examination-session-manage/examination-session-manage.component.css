@@ -1,0 +1,14 @@
+:host ::ng-deep .p-tabmenu {
+  text-align: center; /* Align the whole tabmenu content in the center */
+}
+
+:host ::ng-deep .p-tabmenu-nav {
+  display: flex;
+  justify-content: center; /* Center the headers within the navigation list */
+}
+
+:host ::ng-deep .p-tabmenuitem {
+  display: flex;
+  align-items: center; /* Vertically align menu items within their container */
+  justify-content: center; /* Horizontally center menu items within their container */
+}

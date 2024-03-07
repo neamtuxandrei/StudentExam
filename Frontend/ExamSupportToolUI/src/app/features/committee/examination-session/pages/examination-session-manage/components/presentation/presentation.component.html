@@ -1,0 +1,59 @@
+<div class="card ml-6 mr-6" *ngIf="currentPresentation">
+  <div class="card-container-second mb-0">
+    <div class="inline-block mb-0">
+      <h1>{{currentPresentation.student?.name}}</h1>
+    </div>
+    <div class="inline-block timer-container mb-0 flex align-content-center ">
+        <div class="flex flex-row-reverse flex-wrap">
+          <app-countdown-timer [startDate]="currentPresentation.startingTime!"
+          [duration]="currentPresentation.studentPresentationDuration!"></app-countdown-timer>
+        </div>
+    </div>
+  </div>
+  <p><strong>Years Average Grade:</strong> {{currentPresentation.student?.yearsAverageGrade}}</p>
+  <p><strong>Graduation Year:</strong> {{graduationYear}}</p>
+  <div>
+    <div *ngIf="!currentPresentation?.examinationTicket" class="drawn-ticket" >
+      No examination ticket assigned yet
+    </div>
+    <form [formGroup]="gradesForm">
+      <div *ngIf="currentPresentation?.examinationTicket" style="font-size: 20px;">
+
+        <div class="flex justify-content-between flex-wrap">
+          <p>Ticket No {{currentPresentation.examinationTicket?.ticketNo}}</p>
+          <span class="ml-6">Grade<input class="p-inputtext ml-3" min="0" max="10" [formControl]="gradesForm.controls['theoryGrade']"
+            type="number" (input)="onInputChange()">
+          </span>
+        </div>
+
+        <p class="question-text" >Q1. {{currentPresentation.examinationTicket?.question1}}</p>
+        <p class="answer-text" style="margin-left: 40px;"><span style="color: blue;">A1. {{currentPresentation.examinationTicket?.answer1}}</span></p>
+
+        <p class="question-text">Q2. {{currentPresentation.examinationTicket?.question2}}</p>
+        <p class="answer-text"><span style="color: blue;">A2. {{currentPresentation.examinationTicket?.answer2}}</span></p>
+
+        <p class="question-text">Q3. {{currentPresentation.examinationTicket?.question3}}</p>
+        <p class="answer-text"><span style="color: blue;">A3. {{currentPresentation.examinationTicket?.answer3}}</span></p>
+      </div>
+
+      <div class="flex justify-content-between flex-wrap" style="font-size: 20px;">
+        <div>
+          <h3>Project</h3>
+          <p class="details">{{currentPresentation.student?.diplomaProjectName}}</p>
+        </div>
+        <span *ngIf="currentPresentation?.examinationTicket" class="ml-6">Grade<input class="p-inputtext ml-3" min="0" max="10" [formControl]="gradesForm.controls['projectGrade']"
+          type="number" (input)="onInputChange()">
+       </span>
+      </div>
+  </form>
+  </div>
+  <h3>Coordinator</h3>
+  <p class="details">{{currentPresentation.student?.coordinatorName}}</p>
+  <div class="next-student" style="text-align:center">
+    <p style="font-size: 20px;"><strong>Next Student: </strong> {{findNextStudentNameToPresent()}}</p>
+  </div>
+</div>
+
+<div *ngIf="!currentPresentation">
+  <p>There is no student currently presenting.</p>
+</div>

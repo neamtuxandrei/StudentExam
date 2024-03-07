@@ -1,0 +1,24 @@
+.debug {
+  border: 1px solid red;
+}
+
+.scheduleLabel{
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color:black;
+}
+
+.p-inputtext{
+  border-width: 1px;
+  border-color: black;
+}
+
+#breakDurationInput{
+  width:80px;
+}
+
+#presentationDurationInput{
+  width:131.19px;
+}
+

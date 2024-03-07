@@ -1,0 +1,120 @@
+<p-dialog [(visible)]="generateDialogControl" [modal]="true" [draggable]="false">
+    <ng-template pTemplate="header">
+        <h3>Generate Schedule</h3>
+    </ng-template>
+    <ng-template pTemplate="body">
+        <form [formGroup]="presentationScheduleForm">
+            <div class="formgroup-inline p-grid p-justify-between">
+                <div class="field p-col ">
+                    <p class="scheduleLabel" id="startDateLabel">Start Date</p>
+                </div>
+                <div class="field p-col">
+                    <p class="scheduleDate">{{presentationSchedule.startDate | date: 'dd/MM/yyyy'}}</p>
+                </div>
+                <div class="field p-col ">
+                    <p class="scheduleLabel" id="endDateLabel">End Date</p>
+                </div>
+                <div class="field p-col ">
+                    <p class="scheduleDate">{{presentationSchedule.endDate | date: 'dd/MM/yyyy'}}</p>
+                </div>
+            </div>
+            <div class="formgroup-inline p-grid p-justify-between">
+                <div class="field p-col">
+                    <label for="startHourInput" class="scheduleLabel">Start hour</label>
+                    <p-calendar [formControl]="presentationScheduleForm.controls['startDate']" [timeOnly]="true"
+                        dataType="date" [dateFormat]=""></p-calendar>
+                </div>
+                <div class="field p-col ml-4">
+                    <label for="endHourInput" class="scheduleLabel">End hour</label>
+                    <p-calendar [formControl]="presentationScheduleForm.controls['endDate']"
+                        [timeOnly]="true"></p-calendar>
+                </div>
+            </div>
+            <div class="formgroup-inline p-grid p-justify-between">
+                <div class="field p-col ">
+                    <label for="breakStartInput" class="scheduleLabel">Break start</label>
+                    <p-calendar [formControl]="presentationScheduleForm.controls['breakStart']"
+                        [timeOnly]="true"></p-calendar>
+                </div>
+                <div class="field p-col ml-4">
+                    <label for="breakDurationInput" class="scheduleLabel">Break duration</label>
+
+                    <input [formControl]="presentationScheduleForm.controls['breakDuration']" class="hourInputs"
+                        id="breakDurationInput" type="number" min="0"
+                        onkeyup="if(this.value<0){this.value= this.value * -1} if(this.value>60){this.value=60}"
+                        class="p-inputtext p-rounded p-m-1  p-col-4">
+                    <span class="ml-1">min</span>
+                </div>
+            </div>
+
+            <div class="formgroup-inline p-grid p-justify-between">
+                <div class="field p-col ">
+                    <label for="presentationDurationInput" class="scheduleLabel">Duration for a presentation</label>
+                    <input [formControl]="presentationScheduleForm.controls['studentPresentationDuration']"
+                        class="hourInputs" id="presentationDurationInput" type="number" min="0"
+                        onkeyup="if(this.value<0){this.value= this.value * -1} if(this.value>60){this.value=60}"
+                        class="p-inputtext p-rounded p-m-1  p-col-4">
+                    <span class="ml-1">min</span>
+                </div>
+            </div>
+        </form>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" class="p-button-danger" (click)="closeGenerateDialog()"></button>
+        <button pButton pRipple label="Submit" class="p-button-success" [disabled]="presentationScheduleForm.invalid"
+            (click)="onSubmitButtonClick()"></button>
+    </ng-template>
+</p-dialog>
+
+
+
+<div>
+    <div class="flex justify-content-end flex-wrap gap-3 mb-1">
+       <p-button styleClass="p-button-success" label="Submit Schedule" (click)="onSubmitScheduleClick()"></p-button>
+        <p-button styleClass="p-button-success" label="Modify Schedule" (click)="displayGenerateDialog()"></p-button>
+        <p-button styleClass="p-button-help" label="Export"></p-button>
+    </div>
+    <div>
+        <p-tabView [scrollable]="true" [(activeIndex)]="activeTabIndex">
+            <ng-container *ngFor="let day of presentationScheduleByDate">
+                <p-tabPanel [header]="day.key">
+                    <p-table [value]="day.value" [tableStyle]="{'min-width': '50rem'}">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Time</th>
+                                <th>Name</th>
+                                <th>Coordinator</th>
+                                <th>Project</th>
+                                <th>Actions</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-entry>
+                            <tr>
+                                <td *ngIf="entry.student; else noStudent">{{ entry.date | date: 'HH:mm' }}</td>
+                                <td *ngIf="entry.student;">{{ entry.student.name }}</td>
+                                <td *ngIf="entry.student;">{{ entry.student.coordinatorName }}</td>
+                                <td *ngIf="entry.student;">{{ entry.student.diplomaProjectName }}</td>
+
+                                <ng-template #noStudent>
+                                    <td><b>{{ entry.date | date: 'HH:mm' }}</b></td>
+                                    <td><b>Break</b></td>
+                                    <td></td>
+                                    <td></td>
+                                </ng-template>
+                                <td>
+                                    <p-button [disabled]="getEntryIndex(entry.id) == 0"
+                                        styleClass="p-button-sm pi pi-chevron-up" label=""
+                                        (onClick)="onUpButtonClick(entry.id)"></p-button>
+                                    <p-button
+                                        [disabled]="getEntryIndex(entry.id) == presentationScheduleEntries.length - 1"
+                                        styleClass="p-button-sm pi pi-chevron-down ml-2" label=""
+                                        (onClick)="onDownButtonClick(entry.id)"></p-button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </p-tabPanel>
+            </ng-container>
+        </p-tabView>
+    </div>
+</div>

@@ -1,0 +1,109 @@
+<ng-container *ngIf="examinationSession$ | async as examinationSession">
+  <ng-container *ngIf="!examinationSession.presentationSchedule?.presentationScheduleEntry; else hasSchedule">
+    <div class="card-container mb-0 text-center mt-7">
+      <div>
+        <p>
+          You are not yet scheduled for presentation.
+        </p>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #hasSchedule>
+    <ng-container *ngIf="examinationSession.status === 2" class="card ml-6 mr-6">
+      <ng-container *ngIf="examinationSession.studentPresentation?.status === 1; else notPresenting">
+        <!-- if he already has a ticket (page refresh etc.) -->
+        <ng-container *ngIf="examinationSession.studentPresentation?.examinationTicket !== null; else drawANewTicket">
+          <div class="flex flex-row-reverse flex-wrap">
+            <app-countdown-timer [startDate]="examinationSession.studentPresentation?.startingTime!"
+              [duration]="examinationSession.presentationSchedule?.studentPresentationDuration!"></app-countdown-timer>
+          </div>
+
+          <div class="flex flex-column justify-content-between gap-1">
+            <h3>Ticket No. {{examinationSession.studentPresentation?.examinationTicket?.ticketNo}}</h3>
+            <p>Question 1: {{examinationSession.studentPresentation?.examinationTicket?.question1}}</p>
+            <p>Question 2: {{examinationSession.studentPresentation?.examinationTicket?.question2}}</p>
+            <p>Question 3: {{examinationSession.studentPresentation?.examinationTicket?.question3}}</p>
+          </div>
+        </ng-container>
+        <!-- else show the drawn ticket -->
+        <ng-template #drawANewTicket>
+          <div *ngIf="(drawnTicket$ | async) as drawnTicket; else noTicket" class="mt-6">
+            <div class="flex flex-row-reverse flex-wrap">
+              <app-countdown-timer [startDate]="examinationSession.studentPresentation?.startingTime!"
+                [duration]="examinationSession.presentationSchedule?.studentPresentationDuration!"></app-countdown-timer>
+            </div>
+
+            <div class="flex flex-column justify-content-between gap-1">
+              <h3>Ticket No. {{drawnTicket.ticketNo}}</h3>
+              <p>Question 1: {{drawnTicket.question1}}</p>
+              <p>Question 2: {{drawnTicket.question2}}</p>
+              <p>Question 3: {{drawnTicket.question3}}</p>
+            </div>
+          </div>
+        </ng-template>
+      </ng-container>
+    </ng-container>
+
+    <ng-template #notPresenting>
+      <ng-container *ngIf="examinationSession.studentPresentation?.status === 0; else completed" class="mt-6">
+        <div class="card-container mb-0 text-center mt-7">
+          <p>
+            You are scheduled for presentation on
+          <p>{{examinationSession.presentationSchedule?.presentationScheduleEntry?.date
+            | date: 'EEEE, MMMM d, yyyy, HH:mm a' }}
+          </p>
+        </div>
+      </ng-container>
+      <ng-template #completed>
+        <ng-container *ngIf="examinationSession.studentPresentation?.status === 2; else graded" class="mt-6">
+          <div class="card-container mb-0 text-center mt-7">
+            <div>
+              <p>
+                Your presentation has ended. Wait for your grades to be published by the committee
+              </p>
+            </div>
+          </div>
+        </ng-container>
+        <ng-template #graded>
+          <div class="flex flex-column justify-content-between gap-1 mb-0 text-center mt-7">
+            <h3>Your grades</h3>
+            <p>Theoretical Questions {{examinationSession.studentPresentation?.theoryGrade}}</p>
+            <p>Project presentation {{examinationSession.studentPresentation?.projectGrade}}</p>
+            <p>General {{calculateGeneralGrade(examinationSession.studentPresentation?.theoryGrade ?? 0,
+              examinationSession.studentPresentation?.projectGrade ?? 0)}}</p>
+          </div>
+        </ng-template>
+      </ng-template>
+    </ng-template>
+
+    <ng-template #noTicket>
+      <div class="flex align-content-center justify-content-center flex-wrap mt-7" style="min-height: 200px">
+        <p-button label="Give me a ticket" (onClick)="onGiveMeTicketButtonClick()"></p-button>
+      </div>
+    </ng-template>
+
+    <!-- the examination session is not presenting -->
+    <div *ngIf="examinationSession.status === 0 || examinationSession.status === 1" class="card ml-6 mr-6">
+      <div class="card-container mb-0 text-center mt-7">
+        <ng-container>
+          <p>
+            You are scheduled for presentation on
+          <p>{{examinationSession.presentationSchedule?.presentationScheduleEntry?.date
+            | date: 'EEEE, MMMM d, yyyy, HH:mm a' }}
+          </p>
+        </ng-container>
+      </div>
+    </div>
+
+    <div *ngIf="examinationSession.status === 3" class="card ml-6 mr-6">
+      <div class="flex flex-column justify-content-between gap-1 mb-0 text-center mt-7">
+        <h3>Your grades</h3>
+        <p>Theoretical Questions {{examinationSession.studentPresentation?.theoryGrade}}</p>
+        <p>Project presentation {{examinationSession.studentPresentation?.projectGrade}}</p>
+        <p>General {{calculateGeneralGrade(examinationSession.studentPresentation?.theoryGrade ?? 0,
+          examinationSession.studentPresentation?.projectGrade ?? 0)}}</p>
+      </div>
+    </div>
+  </ng-template>
+</ng-container>

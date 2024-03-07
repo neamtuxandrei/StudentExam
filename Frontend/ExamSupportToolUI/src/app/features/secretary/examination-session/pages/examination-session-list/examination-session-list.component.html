@@ -1,0 +1,171 @@
+<p-dialog [(visible)]="isCreateSessionDialogVisible" class="add-dialog" [draggable]="false" [resizable]="false"
+  [modal]="true">
+  <ng-template pTemplate="header">
+    <h3 class="dialog-header">Create Examination Session</h3>
+  </ng-template>
+  <ng-template pTemplate="display">
+    <form [formGroup]="examSessionForm">
+      <div class="card">
+        <div class="field">
+          <label for="sessionName">Session Name</label>
+          <input [formControl]="examSessionForm.controls['name']" id="sessionName" placeholder="Enter the session name"
+            type="name"
+            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+            aria-describedby="username-help" maxlength="50">
+        </div>
+      </div>
+      <div class="formgroup-inline p-grid p-justify-between">
+        <div class="field p-col">
+          <label for="startCalendar" style="display: block; margin-bottom: 5px;">Start Date</label>
+          <p-calendar [formControl]="examSessionForm.controls['startDate']" #startCalendar id="startCalendar"
+            type="text" placeholder="Select the start date" appendTo="body" [minDate]="minSelectableDate"></p-calendar>
+        </div>
+        <div class="field p-col">
+          <label for="endCalendar" style="display: block; margin-bottom: 5px;">End Date</label>
+          <p-calendar [formControl]="examSessionForm.controls['endDate']" id="endCalendar" type="text"
+            placeholder="Select the end date" appendTo="body" [minDate]="startCalendar.value"></p-calendar>
+        </div>
+      </div>
+    </form>
+    <label for="memberTable" style="display: block; margin-bottom: 5px;">Committee Members</label>
+    <p-table id="memberTable" [value]="committeeMembers" [tableStyle]="{ 'min-width': '50rem' }"
+      styleClass="p-datatable-sm">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-member>
+        <tr>
+          <td>{{ member.name }}</td>
+          <td>{{ member.email }}</td>
+          <td>
+            <div class="flex align-items-center">
+              <p-button (onClick)="onRemoveCommitteeFromNewSessionClick(member.name, member.email)" type="button"
+                icon="pi pi-times" pTooltip="Remove" tooltipPosition="bottom"
+                styleClass="p-button-rounded p-button-danger p-button-text"></p-button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+
+    <div [formGroup]="newCommitteeMemberForm" class="formgroup-inline mt-4">
+      <div class="field">
+        <input [formControl]="newCommitteeMemberForm.controls['name']" id="name" type="text"
+          class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary"
+          placeholder="Enter the name">
+      </div>
+      <div class="field">
+        <input [formControl]="newCommitteeMemberForm.controls['email']" id="email" type="text"
+          class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary"
+          placeholder="Enter the email">
+      </div>
+      <button type="button" (click)="addCommitteeMember()"
+        class="text-white bg-primary-500 border-primary-500 px-3 py-2 text-base border-1 border-solid border-round cursor-pointer transition-all transition-duration-200 hover:bg-primary-600 hover:border-primary-600 active:bg-primary-700 active:border-primary-700 font-bold">Add
+        Committee Member</button>
+      <button type="button" (click)="displayImportMembersDialog()"
+        class="text-white bg-primary-500 border-primary-500 px-3 py-2 text-base border-1 border-solid border-round cursor-pointer transition-all transition-duration-200 hover:bg-primary-600 hover:border-primary-600 active:bg-primary-700 active:border-primary-700 font-bold ml-2">Import
+        Committee</button>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Cancel" class="p-button-danger" (click)="closeCreateSessionDialog()"></button>
+    <button pButton pRipple label="Submit" class="p-button-success" (click)="onSubmitSessionClick()"></button>
+  </ng-template>
+</p-dialog>
+
+<p-dialog [(visible)]="isImportDialogVisible" [draggable]="false" [resizable]="false" [modal]="true">
+  <ng-template pTemplate="header">
+    <h3 class="dialog-header">Select session</h3>
+  </ng-template>
+  <ng-template pTemplate="display">
+    <p-table [value]="examinationSessionList">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Name</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-examinationSession>
+        <tr>
+          <td>
+            <button pButton pRipple class="p-button-primary session-button p-justify-end"
+              (click)="displaySessionMembersDialog(examinationSession)">
+              {{ examinationSession.name }}
+            </button>
+          </td>
+          <td>{{examinationSession.startDate | date}}</td>
+          <td>{{examinationSession.endDate | date}}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Cancel" class="p-button-danger" (click)="closeImportMembersDialog()"></button>
+  </ng-template>
+</p-dialog>
+<p-dialog [(visible)]="isSessionMembersDialogVisible" [draggable]="false" [resizable]="false" [modal]="true">
+  <ng-template pTemplate="header">
+    <h3 class="dialog-header">Session Committees</h3>
+  </ng-template>
+  <ng-template pTemplate="display">
+    <p-table [value]="selectedExaminationSessionCommittees" [tableStyle]="{ 'min-width': '50rem' }">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-member>
+        <tr>
+          <td>{{ member.name }}</td>
+          <td>{{ member.email }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Cancel" class="p-button-danger" (click)="closeSessionMembersDialog()"></button>
+  </ng-template>
+  <button pButton pRipple label="Import Committees" class="p-button-primary mb-3"
+    (click)="onImportCommitteesClick()"></button>
+</p-dialog>
+
+<div class="flex justify-content-between align-items-center mb-4 mt-4">
+  <h2>Examination Sessions</h2>
+  <button pButton pRipple type="button" icon="pi pi-plus" label="Create New Session" (click)="onCreateSessionClick()"
+    class="p-button-success"></button>
+</div>
+<p-table *ngIf="examinationSessionList$ | async as examinationSessionListAsync" [value]="examinationSessionListAsync"
+  [tableStyle]="{ 'min-width': '50rem' }" styleClass="p-datatable-lg" >
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Name</th>
+      <th>Time interval</th>
+      <th>Status</th>
+      <th>No. Students</th>
+      <th>No. Committee members</th>
+    </tr>
+    <tr>
+      <td colspan="4" *ngIf="examinationSessionListAsync.length === 0">
+        There are no examination sessions created</td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-examinationSession>
+    <tr class="clickable-row" (click)="onSessionClick(examinationSession.id)">
+      <td>{{ examinationSession.name }}</td>
+      <td>
+        {{ examinationSession.startDate | date }} -
+        {{ examinationSession.endDate | date }}
+      </td>
+      <td [ngClass]="getStatusClass(examinationSession.status)"><strong>{{
+          sessionStatusType[examinationSession.status]}}</strong></td>
+      <td>{{ examinationSession.numberOfStudents }}</td>
+      <td>{{ examinationSession.numberOfCommitteeMembers }}</td>
+    </tr>
+  </ng-template>
+</p-table>

@@ -1,0 +1,85 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33927.249
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExamSupportToolAPI", "ExamSupportToolAPI\ExamSupportToolAPI.csproj", "{71244AEB-BA97-45E9-BD7A-2F65FDD67E54}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{7A20B6D7-BF1E-4480-9C3C-D6652A61CE7B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataAccess", "DataAccess", "{7F17657B-97A6-4150-B0DE-F09BC1228AD8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApplicationServices", "ApplicationServices", "{3B552AF1-D2AE-49B8-99C3-60C1826FAA44}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExamSupportToolAPI.Domain", "ExamSupportToolAPI.Domain\ExamSupportToolAPI.Domain.csproj", "{FC2F1B56-09B8-4DAE-BF38-D3CB93C33282}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExamSupportToolAPI.Abstractions", "ExamSupportToolAPI.Abstractions\ExamSupportToolAPI.Abstractions.csproj", "{27817421-B5D2-4B70-BC7B-566AE37001FF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExamSupportToolAPI.DataAccess", "ExamSupportToolPracticeAPI.DataAccess\ExamSupportToolAPI.DataAccess.csproj", "{B093FAFA-0153-4FBB-8BC1-78ACEA5EF0C5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExamSupportToolAPI.ApplicationServices", "ExamSupportToolAPI.ApplicationServices\ExamSupportToolAPI.ApplicationServices.csproj", "{EDF863BA-0556-437C-BF93-CC232302B9EC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExamSupportToolAPI.ApplicationServices.Abstractions", "ExamSupportToolAPI.ApplicationServices.Abstractions\ExamSupportToolAPI.ApplicationServices.Abstractions.csproj", "{38CFD3F4-A0D1-43CF-82DB-9880759A3240}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExamSupportToolAPI.DataObjects", "ExamSupportToolAPI.DataObjects\ExamSupportToolAPI.DataObjects.csproj", "{10365683-2873-44DD-9BDF-C00142337C85}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExamSupportToolAPI.ApplicationRequests", "ExamSupportToolAPI.ApplicationRequests\ExamSupportToolAPI.ApplicationRequests.csproj", "{353D9E2A-8DD0-44A8-928F-55B8D4551F60}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B093FAFA-0153-4FBB-8BC1-78ACEA5EF0C5} = {B093FAFA-0153-4FBB-8BC1-78ACEA5EF0C5}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{71244AEB-BA97-45E9-BD7A-2F65FDD67E54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71244AEB-BA97-45E9-BD7A-2F65FDD67E54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71244AEB-BA97-45E9-BD7A-2F65FDD67E54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71244AEB-BA97-45E9-BD7A-2F65FDD67E54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC2F1B56-09B8-4DAE-BF38-D3CB93C33282}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC2F1B56-09B8-4DAE-BF38-D3CB93C33282}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC2F1B56-09B8-4DAE-BF38-D3CB93C33282}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC2F1B56-09B8-4DAE-BF38-D3CB93C33282}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27817421-B5D2-4B70-BC7B-566AE37001FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27817421-B5D2-4B70-BC7B-566AE37001FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27817421-B5D2-4B70-BC7B-566AE37001FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27817421-B5D2-4B70-BC7B-566AE37001FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B093FAFA-0153-4FBB-8BC1-78ACEA5EF0C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B093FAFA-0153-4FBB-8BC1-78ACEA5EF0C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B093FAFA-0153-4FBB-8BC1-78ACEA5EF0C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B093FAFA-0153-4FBB-8BC1-78ACEA5EF0C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDF863BA-0556-437C-BF93-CC232302B9EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDF863BA-0556-437C-BF93-CC232302B9EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDF863BA-0556-437C-BF93-CC232302B9EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDF863BA-0556-437C-BF93-CC232302B9EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38CFD3F4-A0D1-43CF-82DB-9880759A3240}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38CFD3F4-A0D1-43CF-82DB-9880759A3240}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38CFD3F4-A0D1-43CF-82DB-9880759A3240}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38CFD3F4-A0D1-43CF-82DB-9880759A3240}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10365683-2873-44DD-9BDF-C00142337C85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10365683-2873-44DD-9BDF-C00142337C85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10365683-2873-44DD-9BDF-C00142337C85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10365683-2873-44DD-9BDF-C00142337C85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{353D9E2A-8DD0-44A8-928F-55B8D4551F60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{353D9E2A-8DD0-44A8-928F-55B8D4551F60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{353D9E2A-8DD0-44A8-928F-55B8D4551F60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{353D9E2A-8DD0-44A8-928F-55B8D4551F60}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FC2F1B56-09B8-4DAE-BF38-D3CB93C33282} = {7A20B6D7-BF1E-4480-9C3C-D6652A61CE7B}
+		{27817421-B5D2-4B70-BC7B-566AE37001FF} = {7A20B6D7-BF1E-4480-9C3C-D6652A61CE7B}
+		{B093FAFA-0153-4FBB-8BC1-78ACEA5EF0C5} = {7F17657B-97A6-4150-B0DE-F09BC1228AD8}
+		{EDF863BA-0556-437C-BF93-CC232302B9EC} = {3B552AF1-D2AE-49B8-99C3-60C1826FAA44}
+		{38CFD3F4-A0D1-43CF-82DB-9880759A3240} = {3B552AF1-D2AE-49B8-99C3-60C1826FAA44}
+		{10365683-2873-44DD-9BDF-C00142337C85} = {3B552AF1-D2AE-49B8-99C3-60C1826FAA44}
+		{353D9E2A-8DD0-44A8-928F-55B8D4551F60} = {3B552AF1-D2AE-49B8-99C3-60C1826FAA44}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4579B05F-C272-4227-8D80-60577B7439F1}
+	EndGlobalSection
+EndGlobal

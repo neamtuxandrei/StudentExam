@@ -1,0 +1,39 @@
+p-button{
+  margin: 20px;
+  float:right;
+  margin: 10px;
+}
+.clickable-row:hover {
+  background-color: #f0f0f0;
+  cursor: pointer;
+}
+
+button.open-session-button:hover {
+  background-color: lightgreen !important;
+}
+
+button.close-session-button:hover {
+  background-color: lightcoral !important;
+}
+
+.created-color {
+  color: rgb(65, 65, 255);
+}
+
+.opened-color {
+  color: rgb(27, 185, 27);
+}
+
+.presenting-color {
+  color: rgb(255, 177, 33);
+}
+
+.closed-color {
+  color: rgb(221, 38, 38);
+}
+
+.small-table-row {
+  height: 30px !important; /* Adjust the height as needed */
+}
+
+
